@@ -5,7 +5,7 @@
 <a href="http://mtddc2016.mt-tokyo.net/"><img src="http://mtddc2016.mt-tokyo.net/common/images/bnr460_120.png" alt="MTDDC Meetup Tokyo 2016公式サイト" width="460" height="120"></a>  
 
 ## 動作環境
-* Movable Type Data API v3が利用できるサイト
+* [Movable Type Data API v3](https://www.movabletype.jp/developers/data-api/)が利用できるサイト
 * Xcode8.0以降(Swft3.0)
 * iOS10以降がインストールされたiOSデバイス（iPad含む)
 
