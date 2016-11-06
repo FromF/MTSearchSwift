@@ -28,6 +28,6 @@ Movable Type DataAPIから取得したpermalinkのサイトが表示されます
 
 ## これからつくるiPhoneアプリ開発入門 ~Swiftではじめるプログラミングの第一歩~
 おすすめSwift 3.0向け入門書です。  
-本ソースコードもこちらの書籍を応用しています。  
+本ソースコードもこちらの書籍のお菓子検索アプリから応用しています。  
 [公式サイト](https://swiftbg.github.io/swiftbook/)  
 ![](https://images-fe.ssl-images-amazon.com/images/I/51tP8W6KckL.jpg)
