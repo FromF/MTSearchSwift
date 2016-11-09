@@ -34,6 +34,9 @@ class ViewController: UIViewController , UISearchBarDelegate , UITableViewDataSo
     
     // Table Viewのdelegateを設定
     tableView.delegate = self
+    
+    // 一覧表示
+    searchRecipe(keyword: "")
 }
 
   override func didReceiveMemoryWarning() {
@@ -66,7 +69,12 @@ class ViewController: UIViewController , UISearchBarDelegate , UITableViewDataSo
     let keyword_encode = keyword.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
     
     // URLオブジェクトの生成
-    let URL = Foundation.URL(string: "http://\(mtHost)/\(mtPath)/mt-data-api.cgi/v3/search?search=\(keyword_encode!)")
+    var URL = Foundation.URL(string: "http://\(mtHost)/\(mtPath)/mt-data-api.cgi/v3/search?search=\(keyword_encode!)")
+
+    if (keyword.isEmpty) {
+        // キーワードがない場合
+        URL = Foundation.URL(string: "http://\(mtHost)/\(mtPath)/mt-data-api.cgi/v3/sites/1/entries")
+    }
     
     // リンクオブジェクトの生成
     let req = URLRequest(url: URL!)
