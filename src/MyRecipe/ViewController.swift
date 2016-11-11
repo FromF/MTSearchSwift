@@ -18,6 +18,9 @@ let mtHost = "your-host"
 // MovableTypeパス
 let mtPath = "path-to-mt"
 
+// MovableType SiteID
+let mtSiteID = ":site_id"
+
 class ViewController: UIViewController , UISearchBarDelegate , UITableViewDataSource , UITableViewDelegate , SFSafariViewControllerDelegate {
 
   override func viewDidLoad() {
@@ -47,7 +50,7 @@ class ViewController: UIViewController , UISearchBarDelegate , UITableViewDataSo
   @IBOutlet weak var searchText: UISearchBar!
   @IBOutlet weak var tableView: UITableView!
 
-  // お菓子のリスト（タプル配列）
+  // レシピのリスト（タプル配列）
   var recipeList : [(category:String , name:String , link:String , image:String)] = []
   
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -57,7 +60,7 @@ class ViewController: UIViewController , UISearchBarDelegate , UITableViewDataSo
     print(searchBar.text!)
     
     if let searchWord = searchBar.text {
-      // 入力値がnilでなかったら、お菓子を検索
+      // 入力値がnilでなかったら、レシピを検索
       searchRecipe(keyword: searchWord)
     }
   }
@@ -70,10 +73,10 @@ class ViewController: UIViewController , UISearchBarDelegate , UITableViewDataSo
     
     // URLオブジェクトの生成
     var URL = Foundation.URL(string: "http://\(mtHost)/\(mtPath)/mt-data-api.cgi/v3/search?search=\(keyword_encode!)")
-
+    
     if (keyword.isEmpty) {
         // キーワードがない場合
-        URL = Foundation.URL(string: "http://\(mtHost)/\(mtPath)/mt-data-api.cgi/v3/sites/1/entries")
+        URL = Foundation.URL(string: "http://\(mtHost)/\(mtPath)/mt-data-api.cgi/v3/sites/\(mtSiteID)/entries?limit=20")
     }
     
     // リンクオブジェクトの生成
@@ -96,13 +99,13 @@ class ViewController: UIViewController , UISearchBarDelegate , UITableViewDataSo
         
         //print("count = \(json["count"])")
         
-        // お菓子のリストを初期化
+        // レシピのリストを初期化
         self.recipeList.removeAll()
         
-        // お菓子の情報が取得できているか確認
+        // レシピの情報が取得できているか確認
         if let items = json["items"] as? [[String:Any]] {
           
-          // 取得しているお菓子の数だけ処理
+          // 取得しているレシピの数だけ処理
           for item in items {
             // カテゴリー名
             var category = ""
@@ -132,7 +135,7 @@ class ViewController: UIViewController , UISearchBarDelegate , UITableViewDataSo
             
             // １つのレシピをタプルでまとめて管理
             let recipe = (category,name,link,image)
-            // お菓子の配列へ追加
+            // レシピの配列へ追加
             self.recipeList.append(recipe)
             
           }
@@ -163,15 +166,18 @@ class ViewController: UIViewController , UISearchBarDelegate , UITableViewDataSo
     //今回表示を行う、Cellオブジェクト（１行）を取得する
     let cell = tableView.dequeueReusableCell(withIdentifier: "recipeCell", for: indexPath)
     
-    // お菓子のタイトル設定
-    cell.textLabel?.text = "\(recipeList[indexPath.row].name)(\(recipeList[indexPath.row].category))"
+    // レシピの名称設定
+    cell.textLabel?.text = "\(recipeList[indexPath.row].name)"
     
-    // お菓子画像のURLを取り出す
+    // カテゴリ設定
+    cell.detailTextLabel?.text = "\(recipeList[indexPath.row].category)"
+    
+    // Assets画像のURLを取り出す
     let url = URL(string: recipeList[indexPath.row].image)
     
     // URLから画像を取得
     if let image_data = try? Data(contentsOf: url!) {
-      // 正常に取得できた場合は、UIImageで画像オブジェクトを生成して、Cellにお菓子画像を設定
+      // 正常に取得できた場合は、UIImageで画像オブジェクトを生成して、Cellにレシピ画像を設定
       cell.imageView?.image = UIImage(data: image_data)
     }
     
